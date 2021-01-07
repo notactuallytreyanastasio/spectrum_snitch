@@ -1,12 +1,10 @@
-SPECTRUM_SPREADSHEET = "/Users/robertgrayson/spectrum.csv"
-
 require 'net/http'
 require 'date'
 require 'csv'
 
 class SpectrumSnitch
-  def initialize(spectrum_csv_path)
-    @spectrum_csv_path = "/Users/robertgrayson/spectrum.csv"
+  def initialize
+    @spectrum_csv_path = ENV.fetch("SNITCH_CSV_PATH")
     @full_datetime = Time.now
     @string_full_datetime = @full_datetime.to_s
     @string_date = Date.today.to_s
@@ -14,7 +12,7 @@ class SpectrumSnitch
 
   def run
     begin
-      resp = Net::HTTP.get_response(URI("https://news.ycombinator.com"))
+      resp = Net::HTTP.get_response(URI(ENV.fetch("CHECK_SITE", "https://example.com")))
       @state = "connected"
       data = [@string_full_datetime, @string_date, @state]
       `echo #{data.join(",")} >> #{@spectrum_csv_path}`
@@ -25,4 +23,4 @@ class SpectrumSnitch
     end
   end
 end
-SpectrumSnitch.new(SPECTRUM_SPREADSHEET).run
+SpectrumSnitch.new.run
