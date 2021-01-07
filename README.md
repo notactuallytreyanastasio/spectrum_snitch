@@ -31,7 +31,7 @@ Try sourcing the env and running it with `ruby main.rb` to debug.
 Pry is installed in the Gemfile.
 
 ## What it does
-This runs in cron using a ruby script to either grab the frontpage of hacker news or a domain of your choice (example.com would probably make more sense, but whatever) and then if the socket blows or it times out, it writes a bad log.
+This runs in cron using a ruby script to either grab example.com by default or a domain of your choice if configured and then if the socket blows or it times out, it writes a bad log.
 
 If it succeeds, writes a good log.
 
@@ -72,12 +72,12 @@ You can fill it in with your values easily just by `cp`ing it and getting yours 
 Then, we open up `config/schedule.rb`, it looks like so:
 
 ```ruby
-log_path = ENV["SNITCH_LOG_PATH"]
-csv_path = ENV["SNITCH_CSV_PATH"]
-program_path = ENV["PROGRAM_PATH"]
+log_path = ENV.fetch("SNITCH_LOG_PATH")
+csv_path = ENV.fetch("SNITCH_CSV_PATH")
+program_path = ENV.fetch("PROGRAM_PATH")
 
 every 2.minutes do
-  command "echo 'beginning check' >> #{log_path} && ruby #{program_path} && echo 'finished check' >> #{log_path}"
+  command "source #{program_path}/.env && echo 'beginning check' >> #{log_path} && ruby #{program_path}/main.rb && echo 'finished check' >> #{log_path}"
 end
 ```
 
