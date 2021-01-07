@@ -8,6 +8,7 @@ I decided that since they aggressively offer to pro-rate your rates if you give 
 So you want a CSV that tracks if you have internet all day every day in 2 minute intervals?
 Sweet heres how we set it up
 
+### Note, if youre not on ruby 2.7.2 just change it to yours in the Gemfile
 ```shell
 $ git clone https://github.com/notactuallytreyanastasio/spectrum_snitch
 $ cd spectrum_snitch
@@ -46,6 +47,9 @@ Obviously if your computers off this wont be running so unless you have it just 
 Heres how to use it
 
 ## Usage
+
+
+### Note, if youre not on ruby 2.7.2 just change it to yours in the Gemfile
 
 First, we set some env vars, in a `.env` file.
 
